@@ -368,4 +368,16 @@ public class ObjectPrinterAcceptanceTests
 
         Approvals.Verify(result);
     }
+    
+    [Test]
+    [UseReporter(typeof(DiffReporter))]
+    public void PrintToString_ShouldApplyTypeSerializerWhenTrimIsUsedOnProperty()
+    {
+        var result = ObjectPrinter.For<Person>()
+            .For<string>().Using(s => s.ToUpper())
+            .For(p => p.Name).Trim(2)
+            .PrintToString(person);
+        
+        Approvals.Verify(result);
+    }
 }
